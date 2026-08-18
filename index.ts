@@ -3,6 +3,7 @@ import cors from "cors";
 import router from "./router/index.route";
 import dotenv from "dotenv";
 import { connectDB } from "./config/database";
+import cookieParser from "cookie-parser";
 
 //Load biến môi trường
 dotenv.config();
@@ -21,17 +22,7 @@ app.use(
 );
 app.use(express.json());
 
-// app.get("/", (req: Request, res: Response) => {
-//   res.send("Hello World!");
-// });
-
-// app.post("/user/register", (req: Request, res: Response) => {
-//   console.log(req.body);
-//   res.json({
-//     code: "succes",
-//     message: "Đăng kí tài khoản thành công",
-//   });
-// });
+app.use(cookieParser());
 app.use("/", router);
 
 app.listen(port, () => {
