@@ -9,5 +9,7 @@ router.post(
 //   companyValidate.registerPost,
   companyController.registerPost,
 );
-// router.post("/login", companyValidate.loginPost, userController.loginPost);
+router.post("/login", 
+  // companyValidate.loginPost,
+   companyController.loginPost);
 export default router;

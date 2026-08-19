@@ -1,6 +1,7 @@
 import { Response, Request } from "express";
 import jwt from "jsonwebtoken";
 import AccountUser from "../model/account-user.model";
+import AccountCompany from "../model/account-company.model";
 
 export const check = async (req: Request, res: Response) => {
   try {
@@ -18,26 +19,54 @@ export const check = async (req: Request, res: Response) => {
       token,
       `${process.env.JWT_SECRET}`,
     ) as jwt.JwtPayload;
+
     const { id, email } = decoded;
 
-    const existAccount = await AccountUser.findOne({
+    const existAccountUser = await AccountUser.findOne({
       _id: id,
       email: email,
     });
 
-    if (!existAccount) {
+    if(existAccountUser){
+      const infoUser = {
+        id:existAccountUser.id,
+        fullName:existAccountUser.fullName,
+        email:existAccountUser.email,
+      }
+      res.json({
+      code: "success",
+      message:"TOKEN HỢP LỆ",
+      infoUser : infoUser,
+    });
+    return
+    }
+
+    const existAccountCompany = await AccountCompany.findOne({
+      _id: id,
+      email: email,
+    });
+
+    if(existAccountCompany){
+      const infoCompany = {
+        id:existAccountCompany.id,
+        fullName:existAccountCompany.companyName,
+        email:existAccountCompany.email,
+      }
+      res.json({
+      code: "success",
+      message:"TOKEN HỢP LỆ",
+      infoCompany : infoCompany,
+    });
+    return
+    }
+    if (!existAccountUser && !existAccountCompany) {
       res.clearCookie("token");
       res.json({
         code: "error",
         message: "Tài khoản không tồn tại !",
       });
       return;
-    }
-
-    res.json({
-      code: "success",
-      infoUser: existAccount,
-    });
+    } 
   } catch (error) {
     res.json({
       code: "error",
