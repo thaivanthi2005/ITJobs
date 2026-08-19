@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export const registerPost =  async (req: Request, res: Response) =>{
-const { fullName, email, password } = req.body;
+const { companyName, email, password } = req.body;
   const existAccount = await AccountCompany.findOne({
     email: email,
   });
@@ -22,7 +22,7 @@ const { fullName, email, password } = req.body;
   const hashedPass = await bcrypt.hash(password, salt);
 
   const newAccount = new AccountCompany({
-    fullName: fullName,
+    companyName: companyName,
     email: email,
     password: hashedPass,
   });

@@ -22,6 +22,7 @@ export const check = async (req: Request, res: Response) => {
 
     const { id, email } = decoded;
 
+    //USER
     const existAccountUser = await AccountUser.findOne({
       _id: id,
       email: email,
@@ -46,19 +47,22 @@ export const check = async (req: Request, res: Response) => {
       email: email,
     });
 
+    //COMPANY
     if(existAccountCompany){
       const infoCompany = {
         id:existAccountCompany.id,
-        fullName:existAccountCompany.companyName,
+        companyName:existAccountCompany.companyName,
         email:existAccountCompany.email,
       }
+      console.log(infoCompany);
       res.json({
       code: "success",
       message:"TOKEN HỢP LỆ",
       infoCompany : infoCompany,
     });
-    return
+    return;
     }
+
     if (!existAccountUser && !existAccountCompany) {
       res.clearCookie("token");
       res.json({
@@ -67,6 +71,7 @@ export const check = async (req: Request, res: Response) => {
       });
       return;
     } 
+
   } catch (error) {
     res.json({
       code: "error",
