@@ -52,11 +52,19 @@ export const check = async (req: Request, res: Response) => {
     //COMPANY
     if(existAccountCompany){
       const infoCompany = {
-        id:existAccountCompany.id,
-        companyName:existAccountCompany.companyName,
-        email:existAccountCompany.email,
+        id: existAccountCompany.id,
+        companyName: existAccountCompany.companyName,
+        email: existAccountCompany.email,
+        city: existAccountCompany.city,
+        address: existAccountCompany.address,
+        companyModel: existAccountCompany.companyModel,
+        companyEmployees: existAccountCompany.companyEmployees,
+        workingTime: existAccountCompany.workingTime,
+        workOvertime: existAccountCompany.workOvertime,
+        description: existAccountCompany.description,
+        logo: existAccountCompany.logo,
+        phone: existAccountCompany.phone,
       }
-      console.log(infoCompany);
       res.json({
       code: "success",
       message:"TOKEN HỢP LỆ",
