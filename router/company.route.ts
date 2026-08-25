@@ -17,7 +17,22 @@ router.post("/login",companyValidate.loginPost,companyController.loginPost);
 router.patch("/profile",authMiddleware.verifyTokenCompany,image_parser.single("logo"),companyController.profilePatch)
 
 
-router.post("/job/create",authMiddleware.verifyTokenCompany,image_parser.single("images"),companyController.jobCreate)
+router.post("/job/create",authMiddleware.verifyTokenCompany,image_parser.array('images', 8),companyController.jobCreate)
 
 router.get("/job/list",authMiddleware.verifyTokenCompany,companyController.jobList)
+
+router.get(
+  '/job/edit/:id', 
+  authMiddleware.verifyTokenCompany,
+  companyController.editJob
+);
+
+router.patch(
+  '/job/edit/:id', 
+  authMiddleware.verifyTokenCompany,
+  image_parser.array('images', 8),
+  companyController.editJobPatch
+);
+
+
 export default router;
