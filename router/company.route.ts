@@ -19,5 +19,5 @@ router.patch("/profile",authMiddleware.verifyTokenCompany,image_parser.single("l
 
 router.post("/job/create",authMiddleware.verifyTokenCompany,image_parser.single("images"),companyController.jobCreate)
 
-
+router.get("/job/list",authMiddleware.verifyTokenCompany,companyController.jobList)
 export default router;

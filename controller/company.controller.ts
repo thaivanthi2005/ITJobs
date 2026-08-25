@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import AccountCompany from "../model/account-company.model";
 import JobCompany from "../model/job.model";
+import City from "../model/city.model"
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import {AccountRequest} from "../interfaces/request.interface"
@@ -125,3 +126,39 @@ export const jobCreate = async (req:AccountRequest , res:Response) =>{
 }
 
 
+export const jobList = async (req:AccountRequest , res:Response) =>{
+  const jobs = await JobCompany
+    .find({
+      companyId: req.account.id
+    })
+    .sort({
+      createdAt: "desc"
+    });
+
+  const dataFinal = [];
+
+  const city = await City.findOne({
+    _id: req.account.city
+  })
+
+  for (const item of jobs) {
+    dataFinal.push({
+      id: item.id,
+      companyLogo: req.account.logo,
+      title: item.title,
+      companyName: req.account.companyName,
+      salaryMin: item.salaryMin,
+      salaryMax: item.salaryMax,
+      position: item.position,
+      workingForm: item.workingForm,
+      companyCity: city?.name,
+      technologies: item.technologies,
+    });
+  }
+
+  res.json({
+    code: "success",
+    message: "Lấy danh sách công việc thành công!",
+    jobs: dataFinal
+  })
+}
