@@ -34,6 +34,17 @@ export const search = async (req: Request, res: Response) => {
         find.companyId = { $in: listIdAccountCompany };
       }
     }
+
+    //company
+    if(req.query.company) {
+      const accountCompany = await AccountCompany.findOne({
+        companyName: req.query.company as string
+      })
+
+      find.companyId = accountCompany?.id;
+    }
+
+
     const jobs = await Job.find(find).sort({createdAt: "desc"})
 
     for(const item of jobs){
