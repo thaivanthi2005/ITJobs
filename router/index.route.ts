@@ -11,5 +11,4 @@ router.use("/auth", checkRoutes);
 router.use("/company",companyRoute);
 router.use('/city', cityRoutes);
 
-
 export default router;

@@ -5,6 +5,7 @@ import City from "../model/city.model"
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import {AccountRequest} from "../interfaces/request.interface"
+import Job from "../model/job.model";
 
 
 export const registerPost =  async (req: Request, res: Response) =>{
@@ -291,4 +292,41 @@ export const deleteJobDel = async (req: AccountRequest, res: Response) =>{
       message: "Id không hợp lệ!"
     })
   }
+}
+
+export const list = async (req:AccountRequest,res:Response) =>{
+  let limitItems = 12;
+  // if(req.query.limitItems){
+  //   console.log(req.query.limitItems);
+  //   limitItems = parseInt(`${req.query.limitItems}`);
+  // }
+
+  const companyList = await AccountCompany.find({}).limit(limitItems).sort({
+    createdAt:"desc"
+  })
+
+  const companyListFinal = [];
+
+  for(const item of companyList) {
+    const dataItemFinal = {
+      id: item.id,
+      logo: item.logo,
+      companyName: item.companyName,
+      cityName: "",
+      totalJob: 0
+    };
+    const city = await City.findOne({_id:item.city});
+    dataItemFinal.cityName = `${city?.name}`
+
+    const totalJob = await Job.countDocuments({companyId:item.id});
+    dataItemFinal.totalJob = totalJob;
+
+    companyListFinal.push(dataItemFinal);
+  }
+
+  res.json({
+    code: "success",
+    message: "Thành công!",
+    companyList: companyListFinal
+  })
 }

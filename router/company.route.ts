@@ -40,4 +40,9 @@ router.delete(
   companyController.deleteJobDel
 );
 
+router.get(
+  '/list', 
+  companyController.list
+);
+
 export default router;
