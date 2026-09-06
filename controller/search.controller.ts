@@ -10,6 +10,8 @@ import Job from "../model/job.model";
 
 export const search = async (req: Request, res: Response) => {
   const dataFinal = [];
+  let totalPage = 0;
+  let totalRecord = 0;
   if(Object.keys(req.query).length > 0) {
     const find: any = {};
 
@@ -62,7 +64,26 @@ export const search = async (req: Request, res: Response) => {
     if(req.query.workingForm){
       find.workingForm = req.query.workingForm;
     }
-    const jobs = await Job.find(find).sort({createdAt: "desc"})
+    
+
+    //pagination
+    const limitItems = 2;
+    let page = 1;
+    if(req.query.page){
+      const currentPage = parseInt(`${req.query.page}`);
+      if(currentPage && currentPage>0) page = currentPage;
+        else page=1;
+    }
+    const totalRecord = await Job.countDocuments(find);
+
+      const totalPage = Math.ceil(totalRecord / limitItems);
+
+      if(page > totalPage && totalPage != 0) {
+      page = totalPage;
+    }
+    const skip = (page - 1) * limitItems;
+
+    const jobs = await Job.find(find).sort({createdAt: "desc"}).limit(limitItems).skip(skip);
 
     for(const item of jobs){
       const itemFinal = {
@@ -99,5 +120,7 @@ export const search = async (req: Request, res: Response) => {
     code: "success",
     message: "Thành công!",
     jobs: dataFinal,
+    totalPage: totalPage,
+    totalRecord: totalRecord
   })
 }
