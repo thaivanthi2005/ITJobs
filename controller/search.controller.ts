@@ -44,6 +44,14 @@ export const search = async (req: Request, res: Response) => {
       find.companyId = accountCompany?.id;
     }
 
+    //keyword
+    if(req.query.keyword){
+      const keywordRegex = new RegExp(`${req.query.keyword}`, "i");
+      find["$or"] = [
+        { title: keywordRegex },
+        { technologies: keywordRegex }
+      ];
+    }
 
     const jobs = await Job.find(find).sort({createdAt: "desc"})
 
