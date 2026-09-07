@@ -2,8 +2,8 @@ import { Router } from "express";
 import * as userController from "../controller/user.controller";
 import * as userValidate from "../validates/user.validate";
 import * as storageImage from "../helper/cloudinary.helper"
-import multer from "multer";
 import * as authMiddleware from "../middleware/auth.middleware"
+import multer from "multer";
 const image_parser = multer({ storage: storageImage.storage});
 const router = Router();
 

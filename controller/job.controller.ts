@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Job from "../model/job.model";
 import AccountCompany from "../model/account-company.model";
+import CV from "../models/cv.model";
 
 export const detail = async (req: Request, res: Response) => {
   try {
@@ -64,4 +65,16 @@ export const detail = async (req: Request, res: Response) => {
       message: "Id không hợp lệ!"
     })
   }
+}
+
+export const applyPost = async (req: Request, res: Response) => {
+  req.body.fileCV = req.file ? req.file.path : "";
+
+  const newRecord = new CV(req.body);
+  await newRecord.save();
+
+  res.json({
+    code: "success",
+    message: "Đã gửi CV thành công!"
+  })
 }
