@@ -296,14 +296,30 @@ export const deleteJobDel = async (req: AccountRequest, res: Response) =>{
 
 export const list = async (req:AccountRequest,res:Response) =>{
   let limitItems = 12;
-  // if(req.query.limitItems){
-  //   console.log(req.query.limitItems);
-  //   limitItems = parseInt(`${req.query.limitItems}`);
-  // }
+  if(req.query.limitItems){
+    console.log(req.query.limitItems);
+    limitItems = parseInt(`${req.query.limitItems}`);
+  }
 
-  const companyList = await AccountCompany.find({}).limit(limitItems).sort({
+    // pagination
+  let page = 1;
+  if(req.query.page) {
+    const currentPage = parseInt(`${req.query.page}`);
+    if(currentPage > 0) {
+      page = currentPage;
+    }
+  }
+  const totalRecord = await Job.countDocuments({});
+  const totalPage = Math.ceil(totalRecord/limitItems);
+  if(page > totalPage && totalPage != 0) {
+    page = totalPage;
+  }
+  const skip = (page - 1) * limitItems;
+  // End pagination
+
+  const companyList = await AccountCompany.find({}).sort({
     createdAt:"desc"
-  })
+  }).limit(limitItems).skip(skip);
 
   const companyListFinal = [];
 

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Job from "../model/job.model";
 import AccountCompany from "../model/account-company.model";
-import CV from "../models/cv.model";
+import CV from "../model/cv.model";
 
 export const detail = async (req: Request, res: Response) => {
   try {
