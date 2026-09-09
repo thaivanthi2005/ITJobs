@@ -62,4 +62,12 @@ router.get(
   companyController.detailCV
 );
 
+router.patch(
+  '/cv/change-status', 
+  authMiddleware.verifyTokenCompany,
+  companyController.changeStatusCVPatch
+);
+
+
+
 export default router;
