@@ -14,4 +14,5 @@ router.use('/city', cityRoutes);
 router.use('/search', searchRoutes);
 router.use('/job', jobRoutes);
 
+
 export default router;
