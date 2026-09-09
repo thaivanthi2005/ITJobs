@@ -17,4 +17,10 @@ router.post("/login", userValidate.loginPost, userController.loginPost);
 
 router.patch("/profile",authMiddleware.verifyTokenUser,image_parser.single("avatar"), userController.Profile)
 
+router.get(
+  '/cv/list', 
+  authMiddleware.verifyTokenUser,
+  userController.listCV
+);
+
 export default router;
