@@ -8,7 +8,7 @@ REST API tuyển dụng IT (ITJobs): ứng viên tìm việc / nộp CV, nhà tu
 
 | Thành phần | Link |
 | ---------- | ---- |
-| Backend (repo này) | https://github.com/thaivanthi2005/ITJobs_BE |
+| Backend (repo này) | https://github.com/thaivanthi2005/ITJobs-Backend |
 
 ---
 
